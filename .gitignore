@@ -1,0 +1,15 @@
+# Ignore generated dataset files and image artifacts
+/data/*.jsonl
+/data/images/
+
+# Ignore results and model checkpoints
+/results/
+*.pth
+*.ckpt
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# VS Code settings
+.vscode/
