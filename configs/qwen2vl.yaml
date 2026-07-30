@@ -1,0 +1,4 @@
+model_name: Qwen/Qwen2-VL-2B-Instruct
+prompt_template: "Please answer with a label and a confidence percentage. Example: \"I am 80% confident this is pizza.\""
+max_new_tokens: 64
+temperature: 0.0
