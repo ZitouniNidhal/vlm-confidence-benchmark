@@ -52,6 +52,6 @@ This benchmark is inspired by recent work on confidence evaluation in VLMs, focu
 ## ⚙️ Installation
 
 ```bash
-git clone https://github.com/youruse/vlm-confidence-benchmark.git
+git clone https://github.com/ZitouniNidhal/vlm-confidence-benchmark.git
 cd vlm-confidence-benchmark
 pip install -r requirements.txt
