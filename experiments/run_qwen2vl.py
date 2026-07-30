@@ -1,9 +1,8 @@
 import argparse
-from pathlib import Path
 
 from models.qwen2vl import Qwen2VLM
 from confidence.verbalized import extract_verbalized_confidence, normalize_confidence
-from confidence.internal import compute_internal_confidence
+from confidence.internal import compute_internal_confidence_from_probs
 
 
 def main():
@@ -15,14 +14,12 @@ def main():
     model = Qwen2VLM()
     answer_text, token_probs = model.generate(args.image, args.prompt)
     verbalized = extract_verbalized_confidence(answer_text)
-    internal = compute_internal_confidence(
-        logits=None,
-        labels=[],
-    )
+    normalized_verbalized = normalize_confidence(verbalized)
+    internal = compute_internal_confidence_from_probs(token_probs)
 
     print(f"Answer: {answer_text}")
-    print(f"Verbalized confidence: {verbalized}")
-    print(f"Internal confidence: {internal}")
+    print(f"Verbalized confidence: {verbalized} -> {normalized_verbalized:.2f}")
+    print(f"Internal confidence: {internal:.2f}")
 
 
 if __name__ == "__main__":
