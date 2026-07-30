@@ -26,12 +26,37 @@ def save_food101_subset(target_path: str, split: str = "test", n_samples: int = 
     examples = load_food101_subset(split=split, n_samples=n_samples, seed=seed)
     output_path = Path(target_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
+    image_dir = output_path.parent / "images"
+    image_dir.mkdir(parents=True, exist_ok=True)
 
     with output_path.open("w", encoding="utf-8") as handle:
         for idx, example in enumerate(examples):
             image = example["image"]
-            image_path = getattr(image, "filename", "") or ""
-            handle.write(json.dumps({"index": idx, "label": example["label"], "image_path": image_path}) + "\n")
+            image_filename = f"food101_{idx:04d}.jpg"
+            image_path = image_dir / image_filename
+            image.save(image_path, format="JPEG")
+            handle.write(
+                json.dumps(
+                    {
+                        "index": idx,
+                        "label": example["label"],
+                        "image_path": str(image_path),
+                    }
+                )
+                + "\n"
+            )
+
+
+def load_food101_subset_from_jsonl(source_path: str) -> list[dict[str, Any]]:
+    examples = []
+    source_file = Path(source_path)
+    if not source_file.exists():
+        raise FileNotFoundError(f"Dataset file not found: {source_file}")
+
+    with source_file.open("r", encoding="utf-8") as handle:
+        for line in handle:
+            examples.append(json.loads(line.strip()))
+    return examples
 
 
 if __name__ == "__main__":
