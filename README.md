@@ -55,3 +55,23 @@ This benchmark is inspired by recent work on confidence evaluation in VLMs, focu
 git clone https://github.com/ZitouniNidhal/vlm-confidence-benchmark.git
 cd vlm-confidence-benchmark
 pip install -r requirements.txt
+```
+
+## 🔧 Usage
+
+You can now compose multiple image degradations in a single call:
+
+```python
+from PIL import Image
+from degradations.pipeline import apply_degradations
+
+image = Image.open("path/to/image.jpg")
+augmented = apply_degradations(
+    image,
+    operations=[
+        ("blur", {"radius": 1.5}),
+        ("jpeg", {"quality": 60}),
+        ("rotation", {"angle": 10.0}),
+    ],
+)
+```
