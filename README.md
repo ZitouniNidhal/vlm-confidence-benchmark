@@ -23,17 +23,19 @@ This benchmark is inspired by recent work on confidence evaluation in VLMs, focu
    - A 100-sample subset of Food101 is used for multiple-choice classification.  
    - Each sample includes an image and candidate labels.
 
-2. **Image Degradations**  
-   - Six corruption families:  
+2. **Image Degradations**
+   - Eight corruption families:  
      - JPEG compression  
      - Gaussian blur  
+     - Gaussian noise  
+     - Fog  
      - Low light  
      - Glare (overexposure)  
      - Rotation  
      - Resampling (downscale + upscale)  
-   - Each applied at three severity levels.
+   - Each applied at low / mid / high severity to mirror VLM-RobustBench-style robustness evaluation.
 
-3. **Models**  
+3. **Models**
    - [Qwen2-VL-2B-Instruct](https://huggingface.co/Qwen/Qwen2-VL-2B-Instruct)  
    - [SmolVLM-Instruct](https://huggingface.co/HuggingFace/smolvlm-instruct)
 
@@ -59,7 +61,7 @@ pip install -r requirements.txt
 
 ## 🔧 Usage
 
-You can now compose multiple image degradations in a single call:
+You can now compose multiple image degradations in a single call, including severity presets:
 
 ```python
 from PIL import Image
@@ -69,9 +71,21 @@ image = Image.open("path/to/image.jpg")
 augmented = apply_degradations(
     image,
     operations=[
-        ("blur", {"radius": 1.5}),
-        ("jpeg", {"quality": 60}),
-        ("rotation", {"angle": 10.0}),
+        ("blur", "low"),
+        ("jpeg", "mid"),
+        ("noise", "high"),
+    ],
+)
+```
+
+You can also override preset severity values directly:
+
+```python
+augmented = apply_degradations(
+    image,
+    operations=[
+        ("fog", {"severity": "mid", "opacity": 0.35}),
+        ("rotation", {"angle": 20.0}),
     ],
 )
 ```
