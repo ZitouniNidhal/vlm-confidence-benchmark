@@ -31,9 +31,10 @@ def expected_calibration_error(confidences: Sequence[float], targets: Sequence[i
     bin_acc_sum = [0.0] * n_bins
 
     for c, t in zip(confidences, targets):
-        index = min(int(c * n_bins), n_bins - 1)
+        c_val = max(0.0, min(1.0, float(c)))
+        index = min(int(c_val * n_bins), n_bins - 1)
         bins[index] += 1
-        bin_conf_sum[index] += float(c)
+        bin_conf_sum[index] += c_val
         bin_acc_sum[index] += float(t)
 
     ece = 0.0
@@ -44,4 +45,33 @@ def expected_calibration_error(confidences: Sequence[float], targets: Sequence[i
         avg_conf = conf_sum / count
         avg_acc = acc_sum / count
         ece += (count / total) * abs(avg_conf - avg_acc)
-    return ece
+    return float(ece)
+
+
+def calibration_curve_data(confidences: Sequence[float], targets: Sequence[int], n_bins: int = 10) -> tuple[list[float], list[float]]:
+    """
+    Compute average confidence and accuracy per bin for reliability curves.
+    Returns (bin_confidences, bin_accuracies).
+    """
+    if len(confidences) != len(targets) or len(confidences) == 0:
+        return [], []
+
+    bins = [0] * n_bins
+    bin_conf_sum = [0.0] * n_bins
+    bin_acc_sum = [0.0] * n_bins
+
+    for c, t in zip(confidences, targets):
+        c_val = max(0.0, min(1.0, float(c)))
+        index = min(int(c_val * n_bins), n_bins - 1)
+        bins[index] += 1
+        bin_conf_sum[index] += c_val
+        bin_acc_sum[index] += float(t)
+
+    bin_confs, bin_accs = [], []
+    for count, conf_sum, acc_sum in zip(bins, bin_conf_sum, bin_acc_sum):
+        if count > 0:
+            bin_confs.append(conf_sum / count)
+            bin_accs.append(acc_sum / count)
+
+    return bin_confs, bin_accs
+

@@ -26,11 +26,28 @@ def compute_internal_confidence(logits: torch.Tensor, labels: list[int]) -> floa
     return confidence
 
 
-def compute_internal_confidence_from_probs(token_probs: list[float]) -> float:
-    """Compute internal confidence directly from token-level probabilities."""
+import math
+
+
+def compute_internal_confidence_from_probs(token_probs: list[float], aggregation: str = "mean") -> float:
+    """
+    Compute internal confidence directly from token-level probabilities.
+
+    Args:
+        token_probs: List of probabilities for generated tokens.
+        aggregation: Aggregation method ("mean", "min", "geometric_mean").
+    """
     if len(token_probs) == 0:
         return 0.0
-    return float(sum(token_probs) / len(token_probs))
+
+    if aggregation == "min":
+        return float(min(token_probs))
+    elif aggregation == "geometric_mean":
+        log_sum = sum(math.log(max(p, 1e-12)) for p in token_probs)
+        return float(math.exp(log_sum / len(token_probs)))
+    else:  # default "mean"
+        return float(sum(token_probs) / len(token_probs))
+
 
 
 def confidence_distribution(logits: torch.Tensor, labels: list[int]) -> list[float]:

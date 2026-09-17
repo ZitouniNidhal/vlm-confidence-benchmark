@@ -1,20 +1,31 @@
+import random
 import torch
 from PIL import Image
-from transformers import AutoProcessor, AutoModelForCausalLM, AutoTokenizer
 
 
 class Qwen2VLM:
-    def __init__(self, model_name: str = "Qwen/Qwen2-VL-2B-Instruct", device: str | None = None):
+    def __init__(self, model_name: str = "Qwen/Qwen2-VL-2B-Instruct", device: str | None = None, mock: bool = False):
         self.model_name = model_name
-        self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False)
-        self.processor = AutoProcessor.from_pretrained(model_name)
-        self.model = AutoModelForCausalLM.from_pretrained(
-            model_name,
-            torch_dtype=torch.float16 if self.device.startswith("cuda") else torch.float32,
-        )
-        self.model.to(self.device)
-        self.model.eval()
+        self.mock = mock
+
+        if not self.mock:
+            from transformers import AutoProcessor, AutoModelForVision2Seq, AutoTokenizer
+            self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
+            self.tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False)
+            self.processor = AutoProcessor.from_pretrained(model_name)
+            try:
+                self.model = AutoModelForVision2Seq.from_pretrained(
+                    model_name,
+                    torch_dtype=torch.float16 if self.device.startswith("cuda") else torch.float32,
+                )
+            except Exception:
+                from transformers import AutoModelForCausalLM
+                self.model = AutoModelForCausalLM.from_pretrained(
+                    model_name,
+                    torch_dtype=torch.float16 if self.device.startswith("cuda") else torch.float32,
+                )
+            self.model.to(self.device)
+            self.model.eval()
 
     def _prepare_inputs(self, image: Image.Image | str, prompt: str):
         if isinstance(image, str):
@@ -23,6 +34,18 @@ class Qwen2VLM:
         return inputs
 
     def generate(self, image: Image.Image | str, prompt: str, max_new_tokens: int = 64, temperature: float = 0.0):
+        if self.mock:
+            # Deterministic mock response based on prompt text or image size
+            seed = len(prompt) + (image.size[0] if isinstance(image, Image.Image) else len(str(image)))
+            rng = random.Random(seed)
+            conf_val = rng.randint(60, 95)
+            # Use candidate foods or a generic label
+            labels = ["pizza", "hamburger", "sushi", "tacos", "caesar_salad", "ice_cream", "ramen"]
+            predicted = rng.choice(labels)
+            answer_text = f"I am {conf_val}% confident this is {predicted}."
+            token_probs = [min(1.0, max(0.1, (conf_val / 100.0) + rng.uniform(-0.05, 0.05))) for _ in range(5)]
+            return answer_text, token_probs
+
         inputs = self._prepare_inputs(image, prompt)
         with torch.no_grad():
             outputs = self.model.generate(
@@ -44,3 +67,4 @@ class Qwen2VLM:
                 token_probs.append(probs[int(token_id)].item())
 
         return answer_text, token_probs
+
