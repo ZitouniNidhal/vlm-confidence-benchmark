@@ -277,7 +277,14 @@ temperature: 0.0
 
 ---
 
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to open issues or submit Pull Requests for new VLM models, degradation operators, or evaluation metrics.
+
+---
+
 ## 📜 License
 
 Distributed under the MIT License. See `LICENSE` for details.
+
 
