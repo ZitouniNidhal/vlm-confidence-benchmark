@@ -1,4 +1,7 @@
+"""Calibration evaluation metrics including Brier score, Expected Calibration Error (ECE), and reliability curve data."""
+
 from typing import Sequence
+
 
 
 def brier_score(confidences: Sequence[float], targets: Sequence[int]) -> float:
