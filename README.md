@@ -27,6 +27,8 @@ A reproducible, modular benchmark for evaluating the **confidence calibration** 
 - [Output Artifacts & Visualization](#-output-artifacts--visualization)
 - [Running Unit Tests](#-running-unit-tests)
 - [Configuration](#-configuration)
+- [Contributing](#-contributing)
+- [Contributors](#-contributors)
 - [License](#-license)
 
 ---
@@ -279,12 +281,23 @@ temperature: 0.0
 
 ## 🤝 Contributing
 
-Contributions are welcome! Feel free to open issues or submit Pull Requests for new VLM models, degradation operators, or evaluation metrics.
+Contributions are welcome! Feel free to open issues or submit Pull Requests for new VLM models, degradation operators, or evaluation metrics. Please refer to [CONTRIBUTORS.md](CONTRIBUTORS.md) for details on how to add yourself to the project contributors.
+
+---
+
+## 👥 Contributors
+
+Thank you to everyone who has contributed to this project:
+
+- **Nidhal Zitouni** ([@ZitouniNidhal](https://github.com/ZitouniNidhal)) - *Author & Lead Maintainer*
+
+See the full list of contributors and contribution guidelines in [CONTRIBUTORS.md](CONTRIBUTORS.md).
 
 ---
 
 ## 📜 License
 
 Distributed under the MIT License. See `LICENSE` for details.
+
 
 
