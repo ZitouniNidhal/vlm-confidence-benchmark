@@ -1,15 +1,96 @@
-# Ignore generated dataset files and image artifacts
-/data/*.jsonl
-/data/images/
-
-# Ignore results and model checkpoints
-/results/
-*.pth
-*.ckpt
-
-# Python cache
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+*$py.class
 
-# VS Code settings
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Pytest & Coverage test artifacts
+.pytest_cache/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py:annot
+.hypothesis/
+.nox/
+.tox/
+
+# Jupyter Notebook & IPython
+.ipynb_checkpoints
+*.ipynb_checkpoints/
+.ipython/
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDEs, Editors & OS Files
 .vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Experiment Tracking, Logs & Outputs
+wandb/
+runs/
+mlruns/
+tensorboard/
+.nomic/
+logs/
+*.log
+/results/
+
+# Model Weights, Checkpoints & Datasets
+*.pth
+*.ckpt
+*.pt
+*.bin
+*.onnx
+*.safetensors
+*.h5
+*.tflite
+/data/*.jsonl
+/data/*.json
+/data/images/
+
+# Environment variables & secrets
+.env
+.env.local
+.env.*.local
+
