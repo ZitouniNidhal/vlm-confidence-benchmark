@@ -1,6 +1,13 @@
 import pytest
 from evaluation.accuracy import accuracy_score, match_label, evaluate_predictions
-from evaluation.calibration import expected_calibration_error, brier_score, calibration_curve_data
+from evaluation.calibration import (
+    expected_calibration_error,
+    adaptive_expected_calibration_error,
+    brier_score,
+    calibration_curve_data,
+    apply_temperature_scaling,
+    fit_temperature_scaling,
+)
 from evaluation.auroc import error_detection_auroc
 
 
@@ -39,6 +46,26 @@ def test_expected_calibration_error():
 
     confs, accs = calibration_curve_data(confidences, targets, n_bins=5)
     assert len(confs) == len(accs)
+
+
+def test_adaptive_expected_calibration_error():
+    confidences = [0.95, 0.90, 0.85, 0.80, 0.75, 0.60, 0.40, 0.20]
+    targets = [1, 1, 1, 1, 1, 0, 0, 0]
+    aece = adaptive_expected_calibration_error(confidences, targets, n_bins=4)
+    assert 0.0 <= aece <= 1.0
+
+
+def test_temperature_scaling():
+    confidences = [0.9, 0.8, 0.7, 0.3]
+    targets = [1, 1, 0, 0]
+
+    scaled = apply_temperature_scaling(confidences, temperature=2.0)
+    assert len(scaled) == len(confidences)
+    # Higher temperature softens probabilities towards 0.5
+    assert scaled[0] < confidences[0]
+
+    T_opt = fit_temperature_scaling(confidences, targets)
+    assert T_opt > 0.0
 
 
 def test_error_detection_auroc():

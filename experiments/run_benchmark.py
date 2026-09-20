@@ -11,7 +11,12 @@ from degradations.pipeline import apply_degradations, DEFAULT_SEVERITY_PARAMETER
 from confidence.verbalized import extract_verbalized_confidence, normalize_confidence
 from confidence.internal import compute_internal_confidence_from_probs
 from evaluation.accuracy import accuracy_score, match_label
-from evaluation.calibration import expected_calibration_error, brier_score, calibration_curve_data
+from evaluation.calibration import (
+    expected_calibration_error,
+    adaptive_expected_calibration_error,
+    brier_score,
+    calibration_curve_data,
+)
 from evaluation.auroc import error_detection_auroc
 from evaluation.plotting import (
     plot_reliability_curve,
@@ -124,6 +129,8 @@ def run_benchmark(
         acc = accuracy_score(preds, targets)
         verb_ece = expected_calibration_error(verb_confs, binary_correct)
         int_ece = expected_calibration_error(int_confs, binary_correct)
+        verb_aece = adaptive_expected_calibration_error(verb_confs, binary_correct)
+        int_aece = adaptive_expected_calibration_error(int_confs, binary_correct)
         verb_brier = brier_score(verb_confs, binary_correct)
         int_brier = brier_score(int_confs, binary_correct)
         verb_auroc = error_detection_auroc(verb_confs, binary_errors)
@@ -136,6 +143,8 @@ def run_benchmark(
             "accuracy": round(acc, 4),
             "verbalized_ece": round(verb_ece, 4),
             "internal_ece": round(int_ece, 4),
+            "verbalized_adaptive_ece": round(verb_aece, 4),
+            "internal_adaptive_ece": round(int_aece, 4),
             "verbalized_brier": round(verb_brier, 4),
             "internal_brier": round(int_brier, 4),
             "verbalized_auroc": round(verb_auroc, 4),
