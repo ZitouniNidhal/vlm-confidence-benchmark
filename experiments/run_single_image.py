@@ -70,7 +70,7 @@ def run_single_image_eval(
 
     if ground_truth:
         is_correct = match_label(answer_text, ground_truth)
-        print(f"  Match Ground Truth:    {'✓ CORRECT' if is_correct else '✗ INCORRECT'}")
+        print(f"  Match Ground Truth:    {'[CORRECT]' if is_correct else '[INCORRECT]'}")
 
     if output_plot:
         out_p = Path(output_plot)
