@@ -10,6 +10,8 @@ from confidence.internal import (
     compute_internal_confidence_from_probs,
     confidence_distribution,
     max_token_confidence,
+    compute_token_entropy,
+    compute_sequence_entropy,
 )
 
 
@@ -20,6 +22,16 @@ def test_extract_verbalized_confidence():
     assert extract_verbalized_confidence("Confidence of 0.82") == 82
     assert extract_verbalized_confidence("No numbers here.") is None
     assert extract_verbalized_confidence("") is None
+
+
+def test_extract_verbalized_confidence_fractions_and_qualitative():
+    # Fractions
+    assert extract_verbalized_confidence("Confidence is 9/10.") == 90
+    assert extract_verbalized_confidence("I am 85 out of 100 sure.") == 85
+    # Qualitative
+    assert extract_verbalized_confidence("I have high confidence in this prediction.") == 90
+    assert extract_verbalized_confidence("I am moderately confident.") == 60
+    assert extract_verbalized_confidence("I am uncertain about this image.") == 20
 
 
 def test_normalize_confidence():
@@ -58,3 +70,18 @@ def test_compute_internal_confidence_from_probs():
     assert abs(compute_internal_confidence_from_probs(probs, "mean") - 0.8) < 1e-5
     assert abs(compute_internal_confidence_from_probs(probs, "min") - 0.7) < 1e-5
     assert compute_internal_confidence_from_probs([], "mean") == 0.0
+
+
+def test_entropy_computations():
+    logits = torch.tensor([
+        [1.0, 1.0, 1.0, 1.0, 1.0],  # uniform logits -> highest entropy
+        [10.0, 0.0, 0.0, 0.0, 0.0], # peaked logit -> lowest entropy
+    ])
+    token_entropy = compute_token_entropy(logits)
+    assert token_entropy > 0.0
+
+    probs_certain = [0.99, 0.99]
+    probs_uncertain = [0.5, 0.5]
+    ent_low = compute_sequence_entropy(probs_certain)
+    ent_high = compute_sequence_entropy(probs_uncertain)
+    assert ent_high > ent_low

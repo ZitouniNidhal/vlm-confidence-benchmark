@@ -48,8 +48,8 @@ This benchmark evaluates how vision-language models express and calibrate their 
 ```
 vlm-confidence-benchmark/
 ├── confidence/                 # Confidence signal extraction modules
-│   ├── internal.py             # Log probability & distribution confidence calculations
-│   └── verbalized.py           # Regex-based extraction & normalization of verbalized text
+│   ├── internal.py             # Log probability, distribution & predictive entropy calculations
+│   └── verbalized.py           # Regex-based extraction of percentages, fractions & qualitative phrases
 ├── configs/                    # Model hyperparameter and prompt configurations
 │   ├── qwen2vl.yaml            # Qwen2-VL config
 │   └── smolvlm.yaml            # SmolVLM config
@@ -72,13 +72,16 @@ vlm-confidence-benchmark/
 │   └── plotting.py             # Reliability curves, histograms & degradation plots
 ├── experiments/                # CLI runners for benchmarking
 │   ├── run_benchmark.py        # Complete benchmark matrix evaluator
-│   ├── run_qwen2vl.py          # Single-image runner for Qwen2-VL
-│   └── run_smolvlm.py          # Single-image runner for SmolVLM
+│   ├── run_single_image.py     # Unified single-image evaluator & comparison plotter
+│   ├── run_qwen2vl.py          # Legacy single-image runner for Qwen2-VL
+│   └── run_smolvlm.py          # Legacy single-image runner for SmolVLM
 ├── models/                     # Model wrapper interfaces
+│   ├── base.py                 # BaseVLMModel abstract base class
 │   ├── qwen2vl.py              # Qwen2-VL-2B-Instruct interface & mock runner
 │   └── smolvlm.py              # SmolVLM-Instruct interface & mock runner
 ├── results/                    # Generated benchmark outputs, CSV summaries & plots
-├── tests/                      # Pytest test suite (20 unit tests)
+├── tests/                      # Pytest test suite
+├── pytest.ini                  # Pytest configuration
 ├── requirements.txt            # Dependency requirements
 └── README.md                   # Project documentation
 ```
@@ -167,14 +170,14 @@ python -m experiments.run_benchmark --model smolvlm --data_path data/food101_sub
 
 ### Single-Image Inference
 
-Run single-image evaluation for quick inspectability:
+Run single-image evaluation with automatic degradation, verbalized vs internal confidence comparison, and optional side-by-side plot generation:
 
 ```bash
-# Run single image with SmolVLM (mock)
-python -m experiments.run_smolvlm --image data/images/food101_0000.jpg --mock
+# Run single image with SmolVLM (mock) under blur degradation
+python -m experiments.run_single_image --image data/images/food101_0000.jpg --model smolvlm --mock --degradation blur --severity high
 
-# Run single image with Qwen2-VL (mock)
-python -m experiments.run_qwen2vl --image data/images/food101_0000.jpg --mock
+# Run single image with Qwen2-VL (mock) and save side-by-side plot
+python -m experiments.run_single_image --image data/images/food101_0000.jpg --model qwen2vl --mock --degradation fog --output_plot results/plots/single_image_eval.png
 ```
 
 ---
@@ -290,8 +293,9 @@ Contributions are welcome! Feel free to open issues or submit Pull Requests for 
 Thank you to everyone who has contributed to this project:
 
 - **Nidhal Zitouni** ([@ZitouniNidhal](https://github.com/ZitouniNidhal)) - *Author & Lead Maintainer*
+- **Antigravity Assistant** ([@google](https://github.com/google)) - *Pair Programming & Refactoring Assistant*
 
-See the full list of contributors and contribution guidelines in [CONTRIBUTORS.md](CONTRIBUTORS.md).
+See the complete commit-by-commit log and contribution guidelines in [CONTRIBUTORS.md](CONTRIBUTORS.md).
 
 ---
 

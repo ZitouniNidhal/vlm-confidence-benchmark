@@ -1,12 +1,13 @@
 import random
 import torch
 from PIL import Image
+from models.base import BaseVLMModel
 
 
-class SmolVLM:
+class SmolVLM(BaseVLMModel):
     def __init__(self, model_name: str = "HuggingFace/smolvlm-instruct", device: str | None = None, mock: bool = False):
-        self.model_name = model_name
-        self.mock = mock
+        super().__init__(model_name=model_name, device=device, mock=mock)
+
 
         if not self.mock:
             from transformers import AutoProcessor, AutoModelForVision2Seq, AutoTokenizer
