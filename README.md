@@ -293,8 +293,9 @@ Contributions are welcome! Feel free to open issues or submit Pull Requests for 
 Thank you to everyone who has contributed to this project:
 
 - **Nidhal Zitouni** ([@ZitouniNidhal](https://github.com/ZitouniNidhal)) - *Author & Lead Maintainer*
+- **Antigravity Assistant** ([@google](https://github.com/google)) - *Pair Programming & Refactoring Assistant*
 
-See the full list of contributors and contribution guidelines in [CONTRIBUTORS.md](CONTRIBUTORS.md).
+See the complete commit-by-commit log and contribution guidelines in [CONTRIBUTORS.md](CONTRIBUTORS.md).
 
 ---
 
