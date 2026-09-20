@@ -1,6 +1,8 @@
 import argparse
 from pathlib import Path
 from PIL import Image
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 from models.smolvlm import SmolVLM
