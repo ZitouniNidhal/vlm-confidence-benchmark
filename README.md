@@ -286,18 +286,6 @@ temperature: 0.0
 
 Contributions are welcome! Feel free to open issues or submit Pull Requests for new VLM models, degradation operators, or evaluation metrics. Please refer to [CONTRIBUTORS.md](CONTRIBUTORS.md) for details on how to add yourself to the project contributors.
 
----
-
-## 👥 Contributors
-
-Thank you to everyone who has contributed to this project:
-
-- **Nidhal Zitouni** ([@ZitouniNidhal](https://github.com/ZitouniNidhal)) - *Author & Lead Maintainer*
-- **Antigravity Assistant** ([@google](https://github.com/google)) - *Pair Programming & Refactoring Assistant*
-
-See the complete commit-by-commit log and contribution guidelines in [CONTRIBUTORS.md](CONTRIBUTORS.md).
-
----
 
 ## 📜 License
 
