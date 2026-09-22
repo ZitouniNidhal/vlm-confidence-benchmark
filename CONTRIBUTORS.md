@@ -16,6 +16,7 @@ Thank you to everyone who has contributed to the **VLM Confidence Benchmark**! E
 > - **Evaluation & Calibration Suite**: Implemented Expected Calibration Error (ECE), Brier Score, and Error Detection AUROC evaluation tools with automated plotting routines.
 
 ### **Collaborators & AI Pair Assistants**
+- **FortuneXBT / Mario** ([@fortunexbt](https://github.com/fortunexbt)) - *Co-Author & Contributor*
 - **Antigravity Assistant** ([@google](https://github.com/google)) - *Pair Programming & Refactoring Assistant* (Co-authored commits enhancing calibration documentation, `BaseVLMModel` abstraction, predictive sequence entropy, fraction parsing, and non-interactive plotting configurations).
 
 ---
@@ -71,6 +72,7 @@ Below is the comprehensive list of repository commits documented one-by-one:
 | Contributor | GitHub Profile | Primary Module / Domain | Description of Contributions |
 | :--- | :--- | :--- | :--- |
 | **Nidhal Zitouni** | [@ZitouniNidhal](https://github.com/ZitouniNidhal) | **Core Engine & Architecture** | Created project framework, model interfaces (`SmolVLM`, `Qwen2-VL`), degradation pipeline, evaluation metrics, and Pytest validation suite across all listed commits. |
+| **FortuneXBT / Mario** | [@fortunexbt](https://github.com/fortunexbt) | **Co-Author & Contributor** | Co-authored commits on merged benchmark calibration and evaluation module updates. |
 | **Antigravity Assistant** | [@google](https://github.com/google) | **Pair Programming & Refactoring** | Co-authored commits enhancing calibration documentation, `BaseVLMModel` abstraction, predictive sequence entropy, fraction parsing, and non-interactive plotting configurations. |
 
 ---
