@@ -28,7 +28,6 @@ A reproducible, modular benchmark for evaluating the **confidence calibration** 
 - [Running Unit Tests](#-running-unit-tests)
 - [Configuration](#-configuration)
 - [Contributing](#-contributing)
-- [Contributors](#-contributors)
 - [License](#-license)
 
 ---
