@@ -1,4 +1,3 @@
-import pytest
 import torch
 from confidence.verbalized import (
     extract_verbalized_confidence,

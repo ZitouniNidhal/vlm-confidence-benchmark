@@ -1,5 +1,3 @@
-from pathlib import Path
-import pytest
 from experiments.run_benchmark import run_benchmark
 
 
