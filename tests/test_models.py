@@ -1,4 +1,3 @@
-import pytest
 from PIL import Image
 from models.base import BaseVLMModel
 from models.smolvlm import SmolVLM

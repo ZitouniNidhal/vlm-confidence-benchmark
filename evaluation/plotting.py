@@ -4,7 +4,7 @@ from pathlib import Path
 
 import matplotlib
 matplotlib.use("Agg")
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt  # noqa: E402
 
 
 def plot_reliability_curve(confidences, accuracies, title="Reliability Curve", output_path: str | None = None):

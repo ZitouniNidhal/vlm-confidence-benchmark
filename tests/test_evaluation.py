@@ -1,5 +1,4 @@
-import pytest
-from evaluation.accuracy import accuracy_score, match_label, evaluate_predictions
+from evaluation.accuracy import accuracy_score, evaluate_predictions, match_label
 from evaluation.calibration import (
     expected_calibration_error,
     adaptive_expected_calibration_error,

@@ -9,12 +9,12 @@ from PIL import Image
 # Ensure project root is in sys.path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from confidence.internal import compute_internal_confidence_from_probs, compute_sequence_entropy
-from confidence.verbalized import extract_verbalized_confidence, normalize_confidence
-from degradations.pipeline import apply_degradations
-from evaluation.accuracy import match_label
-from models.qwen2vl import Qwen2VLM
-from models.smolvlm import SmolVLM
+from confidence.internal import compute_internal_confidence_from_probs, compute_sequence_entropy  # noqa: E402
+from confidence.verbalized import extract_verbalized_confidence, normalize_confidence  # noqa: E402
+from degradations.pipeline import apply_degradations  # noqa: E402
+from evaluation.accuracy import match_label  # noqa: E402
+from models.qwen2vl import Qwen2VLM  # noqa: E402
+from models.smolvlm import SmolVLM  # noqa: E402
 
 
 def get_model(model_type: str, mock: bool = False):

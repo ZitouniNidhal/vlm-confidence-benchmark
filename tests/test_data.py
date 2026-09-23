@@ -1,5 +1,4 @@
 from pathlib import Path
-import pytest
 
 from data.prepare_food101 import (
     load_food101_subset,

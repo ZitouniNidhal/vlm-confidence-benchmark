@@ -74,7 +74,7 @@ def test_compute_internal_confidence_from_probs():
 def test_entropy_computations():
     logits = torch.tensor([
         [1.0, 1.0, 1.0, 1.0, 1.0],  # uniform logits -> highest entropy
-        [10.0, 0.0, 0.0, 0.0, 0.0], # peaked logit -> lowest entropy
+        [10.0, 0.0, 0.0, 0.0, 0.0],  # peaked logit -> lowest entropy
     ])
     token_entropy = compute_token_entropy(logits)
     assert token_entropy > 0.0
