@@ -1,4 +1,3 @@
-import pytest
 from PIL import Image
 from experiments.run_single_image import run_single_image_eval
 

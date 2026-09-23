@@ -8,9 +8,8 @@ class Qwen2VLM(BaseVLMModel):
     def __init__(self, model_name: str = "Qwen/Qwen2-VL-2B-Instruct", device: str | None = None, mock: bool = False):
         super().__init__(model_name=model_name, device=device, mock=mock)
 
-
         if not self.mock:
-            from transformers import AutoProcessor, AutoModelForVision2Seq, AutoTokenizer
+            from transformers import AutoModelForVision2Seq, AutoProcessor, AutoTokenizer
             self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
             self.tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False)
             self.processor = AutoProcessor.from_pretrained(model_name)
@@ -48,13 +47,19 @@ class Qwen2VLM(BaseVLMModel):
             return answer_text, token_probs
 
         inputs = self._prepare_inputs(image, prompt)
+        gen_kwargs = {
+            "max_new_tokens": max_new_tokens,
+            "do_sample": temperature > 0.0,
+            "output_scores": True,
+            "return_dict_in_generate": True,
+        }
+        if temperature > 0.0:
+            gen_kwargs["temperature"] = temperature
+
         with torch.no_grad():
             outputs = self.model.generate(
                 **inputs,
-                max_new_tokens=max_new_tokens,
-                temperature=temperature,
-                output_scores=True,
-                return_dict_in_generate=True,
+                **gen_kwargs,
             )
 
         input_length = inputs["input_ids"].shape[-1]
@@ -68,4 +73,3 @@ class Qwen2VLM(BaseVLMModel):
                 token_probs.append(probs[int(token_id)].item())
 
         return answer_text, token_probs
-

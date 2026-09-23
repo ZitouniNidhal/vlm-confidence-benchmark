@@ -1,8 +1,13 @@
 import argparse
+import sys
+from pathlib import Path
 
-from models.qwen2vl import Qwen2VLM
-from confidence.verbalized import extract_verbalized_confidence, normalize_confidence
-from confidence.internal import compute_internal_confidence_from_probs
+# Ensure project root is in sys.path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from confidence.internal import compute_internal_confidence_from_probs  # noqa: E402
+from confidence.verbalized import extract_verbalized_confidence, normalize_confidence  # noqa: E402
+from models.qwen2vl import Qwen2VLM  # noqa: E402
 
 
 def main():

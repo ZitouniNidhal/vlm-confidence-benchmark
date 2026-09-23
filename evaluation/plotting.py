@@ -1,12 +1,10 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 import matplotlib
 matplotlib.use("Agg")
-import matplotlib.pyplot as plt
-import numpy as np
-
-
-from pathlib import Path
+import matplotlib.pyplot as plt  # noqa: E402
 
 
 def plot_reliability_curve(confidences, accuracies, title="Reliability Curve", output_path: str | None = None):
@@ -24,9 +22,9 @@ def plot_reliability_curve(confidences, accuracies, title="Reliability Curve", o
         out = Path(output_path)
         out.parent.mkdir(parents=True, exist_ok=True)
         fig.savefig(out, dpi=300)
-        plt.close(fig)
 
-    return plt
+    plt.close(fig)
+    return fig
 
 
 def plot_confidence_histogram(confidences, bins=10, title="Confidence Histogram", output_path: str | None = None):
@@ -41,9 +39,9 @@ def plot_confidence_histogram(confidences, bins=10, title="Confidence Histogram"
         out = Path(output_path)
         out.parent.mkdir(parents=True, exist_ok=True)
         fig.savefig(out, dpi=300)
-        plt.close(fig)
 
-    return plt
+    plt.close(fig)
+    return fig
 
 
 def plot_degradation_effects(severity_levels, metric_values, metric_name="Metric", output_path: str | None = None):
@@ -61,7 +59,6 @@ def plot_degradation_effects(severity_levels, metric_values, metric_name="Metric
         out = Path(output_path)
         out.parent.mkdir(parents=True, exist_ok=True)
         fig.savefig(out, dpi=300)
-        plt.close(fig)
 
-    return plt
-
+    plt.close(fig)
+    return fig

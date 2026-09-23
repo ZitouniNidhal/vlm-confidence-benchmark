@@ -1,5 +1,4 @@
 import math
-from typing import List
 import torch
 
 
@@ -19,6 +18,9 @@ def compute_internal_confidence(logits: torch.Tensor, labels: list[int]) -> floa
 
     if len(labels) == 0:
         return 0.0
+
+    if logits.shape[0] != len(labels):
+        raise ValueError(f"Logits length ({logits.shape[0]}) must match length of labels ({len(labels)}).")
 
     probs = torch.nn.functional.softmax(logits, dim=-1)
     token_probs = probs[range(len(labels)), labels]
@@ -54,6 +56,9 @@ def confidence_distribution(logits: torch.Tensor, labels: list[int]) -> list[flo
     if len(labels) == 0:
         return []
 
+    if logits.shape[0] != len(labels):
+        raise ValueError(f"Logits length ({logits.shape[0]}) must match length of labels ({len(labels)}).")
+
     probs = torch.nn.functional.softmax(logits, dim=-1)
     token_probs = probs[range(len(labels)), labels]
     return token_probs.tolist()
@@ -66,6 +71,9 @@ def max_token_confidence(logits: torch.Tensor, labels: list[int]) -> float:
 
     if len(labels) == 0:
         return 0.0
+
+    if logits.shape[0] != len(labels):
+        raise ValueError(f"Logits length ({logits.shape[0]}) must match length of labels ({len(labels)}).")
 
     probs = torch.nn.functional.softmax(logits, dim=-1)
     token_probs = probs[range(len(labels)), labels]
