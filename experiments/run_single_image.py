@@ -1,16 +1,20 @@
 import argparse
+import sys
 from pathlib import Path
-from PIL import Image
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from PIL import Image
 
-from models.smolvlm import SmolVLM
-from models.qwen2vl import Qwen2VLM
-from degradations.pipeline import apply_degradations
-from confidence.verbalized import extract_verbalized_confidence, normalize_confidence
+# Ensure project root is in sys.path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
 from confidence.internal import compute_internal_confidence_from_probs, compute_sequence_entropy
+from confidence.verbalized import extract_verbalized_confidence, normalize_confidence
+from degradations.pipeline import apply_degradations
 from evaluation.accuracy import match_label
+from models.qwen2vl import Qwen2VLM
+from models.smolvlm import SmolVLM
 
 
 def get_model(model_type: str, mock: bool = False):
@@ -45,7 +49,7 @@ def run_single_image_eval(
         img_eval = img_clean
         deg_str = "clean"
 
-    print(f"\n--- VLM Single-Image Confidence Evaluation ---")
+    print("\n--- VLM Single-Image Confidence Evaluation ---")
     print(f"Model: {model_type} (mock={mock})")
     print(f"Image: {image_path}")
     print(f"Degradation: {deg_str}")
@@ -62,7 +66,7 @@ def run_single_image_eval(
     int_norm = compute_internal_confidence_from_probs(token_probs)
     seq_entropy = compute_sequence_entropy(token_probs)
 
-    print(f"\nResults:")
+    print("\nResults:")
     print(f"  Raw Output: '{answer_text}'")
     print(f"  Verbalized Confidence: {verb_norm * 100:.1f}%")
     print(f"  Internal Confidence:   {int_norm * 100:.1f}%")

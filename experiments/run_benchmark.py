@@ -1,29 +1,33 @@
 import argparse
-import json
 import csv
+import json
+import sys
 from pathlib import Path
 from PIL import Image
 from tqdm import tqdm
 
-from models.smolvlm import SmolVLM
-from models.qwen2vl import Qwen2VLM
-from degradations.pipeline import apply_degradations, DEFAULT_SEVERITY_PARAMETERS
-from confidence.verbalized import extract_verbalized_confidence, normalize_confidence
+# Ensure project root is in sys.path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
 from confidence.internal import compute_internal_confidence_from_probs
+from confidence.verbalized import extract_verbalized_confidence, normalize_confidence
+from data.prepare_food101 import load_food101_subset_from_jsonl, save_food101_subset
+from degradations.pipeline import apply_degradations
 from evaluation.accuracy import accuracy_score, match_label
+from evaluation.auroc import error_detection_auroc
 from evaluation.calibration import (
-    expected_calibration_error,
     adaptive_expected_calibration_error,
     brier_score,
     calibration_curve_data,
+    expected_calibration_error,
 )
-from evaluation.auroc import error_detection_auroc
 from evaluation.plotting import (
-    plot_reliability_curve,
     plot_confidence_histogram,
     plot_degradation_effects,
+    plot_reliability_curve,
 )
-from data.prepare_food101 import load_food101_subset, load_food101_subset_from_jsonl, save_food101_subset
+from models.qwen2vl import Qwen2VLM
+from models.smolvlm import SmolVLM
 
 
 DEGRADATION_TYPES = ["blur", "jpeg", "lowlight", "glare", "resample", "rotation", "noise", "fog"]
